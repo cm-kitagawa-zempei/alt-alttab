@@ -5,9 +5,9 @@
 	<key>CFBundleIdentifier</key>
 	<string>com.altalttab.app</string>
 	<key>CFBundleName</key>
-	<string>AltAltTab</string>
+	<string>Alt-AltTab</string>
 	<key>CFBundleExecutable</key>
-	<string>AltAltTab</string>
+	<string>Alt-AltTab</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>

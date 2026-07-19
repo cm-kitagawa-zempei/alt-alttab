@@ -28,7 +28,7 @@ final class SettingsWindowController {
             backing: .buffered,
             defer: false
         )
-        window.title = "AltAltTab 設定"
+        window.title = "Alt-AltTab 設定"
         window.isReleasedWhenClosed = false
         window.contentView = hostingView
         window.setContentSize(hostingView.fittingSize)

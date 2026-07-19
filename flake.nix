@@ -1,5 +1,5 @@
 {
-  description = "AltAltTab dev shell (uses system Swift from Command Line Tools, not nixpkgs)";
+  description = "Alt-AltTab dev shell (uses system Swift from Command Line Tools, not nixpkgs)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

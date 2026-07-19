@@ -1,4 +1,4 @@
-APP_NAME := AltAltTab
+APP_NAME := Alt-AltTab
 BUNDLE_ID := com.altalttab.app
 BUILD_DIR := build
 APP_BUNDLE := $(BUILD_DIR)/$(APP_NAME).app

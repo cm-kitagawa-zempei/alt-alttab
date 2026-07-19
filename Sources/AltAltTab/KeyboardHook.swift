@@ -7,7 +7,7 @@ import ApplicationServices
 /// Tiny, greppable stderr logger. Deliberately `nonisolated` so it can be
 /// called from the C event-tap callback context as well as from the main actor.
 nonisolated func logToStderr(_ message: String) {
-    FileHandle.standardError.write(Data(("[AltAltTab] " + message + "\n").utf8))
+    FileHandle.standardError.write(Data(("[Alt-AltTab] " + message + "\n").utf8))
 }
 
 // MARK: - Public contract

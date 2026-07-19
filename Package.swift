@@ -2,8 +2,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "AltAltTab",
+    name: "Alt-AltTab",
     platforms: [.macOS(.v14)],
+    products: [
+        .executable(name: "Alt-AltTab", targets: ["AltAltTab"])
+    ],
     targets: [
         .executableTarget(
             name: "AltAltTab",

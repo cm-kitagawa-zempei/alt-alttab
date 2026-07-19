@@ -1,4 +1,4 @@
-# AltAltTab
+# Alt-AltTab
 
 AltTab 代替の Cmd+Tab ウィンドウスイッチャー。ウィンドウ単位で切り替え、サムネイル表示に対応しています。
 
@@ -30,9 +30,9 @@ cd alt-alttab
 make run
 ```
 
-`build/AltAltTab.app` がビルドされ、そのまま起動します。
+`build/Alt-AltTab.app` がビルドされ、そのまま起動します。
 
-日常的に使う場合は `make install` を実行してください。`/Applications` にコピーしてそちらを起動します。ログイン時に自動起動したい場合は「システム設定 > 一般 > ログイン項目」に `/Applications/AltAltTab.app` を追加してください。
+日常的に使う場合は `make install` を実行してください。`/Applications` にコピーしてそちらを起動します。ログイン時に自動起動したい場合は「システム設定 > 一般 > ログイン項目」に `/Applications/Alt-AltTab.app` を追加してください。
 
 アップデートする場合は次の手順です。
 

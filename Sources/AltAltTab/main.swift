@@ -98,7 +98,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.addItem(settingsItem)
 
         let quitItem = NSMenuItem(
-            title: "AltAltTab を終了",
+            title: "Alt-AltTab を終了",
             action: #selector(NSApplication.terminate(_:)),
             keyEquivalent: "q"
         )
