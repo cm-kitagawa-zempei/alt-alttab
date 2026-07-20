@@ -18,7 +18,7 @@ jobs:
     # 下の swift --version ログで検知する。
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Select newest Xcode
         # ビルドには Swift 6.2 以降が必要。イメージのデフォルト Xcode が古い
