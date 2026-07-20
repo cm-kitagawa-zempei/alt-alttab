@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # 週次（毎週月曜 7:00 JST = 日曜 22:00 UTC）。誰も push しなくても
+    # macOS ランナーイメージや Swift ツールチェインの更新でビルドが壊れて
+    # いないかを定期的に検知するための実行。
+    - cron: '0 22 * * 0'
+  workflow_dispatch:
+
+jobs:
+  build:
+    # macos-latest ではなく major バージョンを固定する。イメージ更新による
+    # ドリフトを「気づいたら壊れていた」ではなく「意図してバンプする」もの
+    # にするため。新しい macOS イメージが GitHub Actions に来たら、ここを
+    # 手動で上げること。
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Swift toolchain version
+        run: swift --version
+
+      - name: Build (release)
+        run: swift build -c release
+
+      - name: Test
+        run: swift test
+
+      - name: Assemble app bundle
+        run: make app

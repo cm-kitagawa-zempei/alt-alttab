@@ -5,7 +5,7 @@ APP_BUNDLE := $(BUILD_DIR)/$(APP_NAME).app
 
 SIGN_ID := $(shell security find-identity -v -p codesigning 2>/dev/null | grep -q 'alt-alttab-dev' && echo 'alt-alttab-dev' || echo '-')
 
-.PHONY: app run install reset-tcc clean gif
+.PHONY: app run install test reset-tcc clean gif
 
 app:
 	swift build -c release
@@ -17,6 +17,16 @@ app:
 run: app
 	pkill -x $(APP_NAME) || true
 	open "$(APP_BUNDLE)"
+
+# テスト実行。CLT のみの環境では Testing.framework が探索パスに無いため、
+# CLT が存在する場合のみパスを補う（フル Xcode 環境では素の swift test に一致）。
+CLT_FRAMEWORKS := /Library/Developer/CommandLineTools/Library/Developer/Frameworks
+CLT_TESTLIB := /Library/Developer/CommandLineTools/Library/Developer/usr/lib
+ifneq ($(wildcard $(CLT_FRAMEWORKS)),)
+TEST_FLAGS := -Xswiftc -F -Xswiftc $(CLT_FRAMEWORKS) -Xlinker -rpath -Xlinker $(CLT_FRAMEWORKS) -Xlinker -rpath -Xlinker $(CLT_TESTLIB)
+endif
+test:
+	swift test $(TEST_FLAGS)
 
 # /Applications へインストールして起動する（日常利用向け）。
 # 二重起動を避けるため、既存プロセスを止めてから /Applications 側を起動する。

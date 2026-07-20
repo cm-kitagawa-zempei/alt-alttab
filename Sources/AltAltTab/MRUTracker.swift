@@ -49,41 +49,53 @@ final class MRUTracker {
         }
     }
 
-    /// Orders `windows` MRU-first: windows found in `mru` come first (in mru
-    /// order), then the rest in their given (z-order) order. Prunes ids from
-    /// `mru` that no longer exist among the passed windows. Seeds `mru` from
-    /// the given z-order on the very first call (empty mru), since front-to-back
+    /// Pure ordering core: returns `present` ids MRU-first — ids found in
+    /// `mru` come first (in mru order), then the rest in their given order.
+    /// Ids in `mru` that aren't in `present` simply don't appear (that's the
+    /// pruning). Takes plain ids (no `WindowInfo`/`AXUIElement`) so it's
+    /// trivial to unit test.
+    static func orderedIDs(present: [CGWindowID], mru: [CGWindowID]) -> [CGWindowID] {
+        let presentSet = Set(present)
+
+        var ordered: [CGWindowID] = []
+        var seen: Set<CGWindowID> = []
+
+        // MRU-known ids first, in mru order; ids no longer present are
+        // implicitly dropped.
+        for id in mru where presentSet.contains(id) {
+            ordered.append(id)
+            seen.insert(id)
+        }
+
+        // Then the rest, in their given (z-order) order.
+        for id in present where !seen.contains(id) {
+            ordered.append(id)
+        }
+
+        return ordered
+    }
+
+    /// Orders `windows` MRU-first (see `orderedIDs`). Prunes ids from `mru`
+    /// that no longer exist among the passed windows. Seeds `mru` from the
+    /// given z-order on the very first call (empty mru), since front-to-back
     /// order is a valid recency approximation.
     func order(_ windows: [WindowInfo]) -> [WindowInfo] {
+        let present = windows.map(\.windowID)
+
+        let ordered = Self.orderedIDs(present: present, mru: mru)
+
         if mru.isEmpty {
-            mru = windows.map(\.windowID)
-            return windows
+            mru = present
+        } else {
+            let presentSet = Set(present)
+            mru = mru.filter { presentSet.contains($0) }
         }
 
         var byID: [CGWindowID: WindowInfo] = [:]
         for window in windows {
             byID[window.windowID] = window
         }
-
-        var ordered: [WindowInfo] = []
-        var seen: Set<CGWindowID> = []
-
-        // MRU-known windows first, in mru order; drop dead ids while we're at it.
-        var prunedMRU: [CGWindowID] = []
-        for id in mru {
-            guard let window = byID[id] else { continue }
-            prunedMRU.append(id)
-            ordered.append(window)
-            seen.insert(id)
-        }
-        mru = prunedMRU
-
-        // Then the rest, in their given z-order.
-        for window in windows where !seen.contains(window.windowID) {
-            ordered.append(window)
-        }
-
-        return ordered
+        return ordered.compactMap { byID[$0] }
     }
 
     /// Moves (or inserts) `windowID` to the front of the MRU list.

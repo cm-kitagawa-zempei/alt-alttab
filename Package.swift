@@ -12,6 +12,11 @@ let package = Package(
             name: "AltAltTab",
             path: "Sources/AltAltTab",
             swiftSettings: [.defaultIsolation(MainActor.self)]
+        ),
+        .testTarget(
+            name: "AltAltTabTests",
+            dependencies: ["AltAltTab"],
+            swiftSettings: [.defaultIsolation(MainActor.self)]
         )
     ]
 )
