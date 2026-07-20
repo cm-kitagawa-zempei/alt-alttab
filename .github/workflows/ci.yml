@@ -13,13 +13,10 @@ on:
 
 jobs:
   build:
-    # macos-latest を使う（固定ラベルは存在しないラベルを指すと startup_failure
-    # で落ちるため）。イメージ更新によるツールチェインのドリフトは、週次実行と
+    # macos-latest を使う。イメージ更新によるツールチェインのドリフトは、週次実行と
     # 下の swift --version ログで検知する。
     runs-on: macos-latest
     steps:
-      # タグではなくコミット SHA で固定する。タグは上流で付け替えられるため、
-      # action が乗っ取られた際にそのまま任意コードを引き込んでしまう。
       # 更新は Dependabot (.github/dependabot.yml) が SHA ごと追従する。
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
