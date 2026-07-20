@@ -8,6 +8,11 @@ import Observation
 ///
 /// The module is `MainActor`-isolated by default, so this singleton lives on
 /// the main actor without annotation.
+///
+/// Note: 「ログイン時に自動起動」is NOT one of these settings — it is managed
+/// via `SMAppService` in `LoginItem.swift`, whose own status is the source of
+/// truth (not persisted here), since the user can also toggle it from System
+/// Settings.
 @Observable final class AppSettings {
     static let shared = AppSettings()
 
