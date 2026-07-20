@@ -18,7 +18,10 @@ jobs:
     # 下の swift --version ログで検知する。
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v5
+      # タグではなくコミット SHA で固定する。タグは上流で付け替えられるため、
+      # action が乗っ取られた際にそのまま任意コードを引き込んでしまう。
+      # 更新は Dependabot (.github/dependabot.yml) が SHA ごと追従する。
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Select newest Xcode
         # ビルドには Swift 6.2 以降が必要。イメージのデフォルト Xcode が古い
