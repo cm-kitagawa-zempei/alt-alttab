@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Swift の外部依存は無いため、監視対象は GitHub Actions のみ。
+  # workflow の action を SHA 固定しているので、その SHA が古くならないよう
+  # Dependabot に追従させる（固定したまま放置するとパッチが当たらなくなる）。
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "07:00"
+      timezone: Asia/Tokyo
+    commit-message:
+      prefix: "CI"
+    open-pull-requests-limit: 5
