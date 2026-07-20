@@ -13,13 +13,20 @@ on:
 
 jobs:
   build:
-    # macos-latest ではなく major バージョンを固定する。イメージ更新による
-    # ドリフトを「気づいたら壊れていた」ではなく「意図してバンプする」もの
-    # にするため。新しい macOS イメージが GitHub Actions に来たら、ここを
-    # 手動で上げること。
-    runs-on: macos-26
+    # macos-latest を使う（固定ラベルは存在しないラベルを指すと startup_failure
+    # で落ちるため）。イメージ更新によるツールチェインのドリフトは、週次実行と
+    # 下の swift --version ログで検知する。
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Select newest Xcode
+        # ビルドには Swift 6.2 以降が必要。イメージのデフォルト Xcode が古い
+        # 場合に備え、インストールされている中で最新の Xcode を明示的に選ぶ。
+        run: |
+          XCODE=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          echo "Selecting: $XCODE"
+          sudo xcode-select -s "$XCODE"
 
       - name: Show Swift toolchain version
         run: swift --version
